@@ -92,7 +92,7 @@ export class OrderListComponent implements OnInit {
   }
   loadParams() {
     return {
-      store: this.storageService.getMerchant(),
+      store: this.storageService.getMerchant() || 'DEFAULT',
       lang: this.storageService.getLanguage(),
       count: this.perPage,
       page: 0
