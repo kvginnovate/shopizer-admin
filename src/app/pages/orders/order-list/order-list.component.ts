@@ -34,6 +34,7 @@ export class OrderListComponent implements OnInit {
   constructor(
     private ordersService: OrdersService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     // private mScrollbarService: MalihuScrollbarService,
     private translate: TranslateService,
     private storageService: StorageService,
@@ -104,16 +105,18 @@ export class OrderListComponent implements OnInit {
     this.loadingList = true;
     this.ordersService.getOrders(this.params)
       .subscribe(orders => {
-        this.loadingList = false;
         if (orders.orders && orders.orders.length !== 0) {
           this.source.load(orders.orders);
         } else {
           this.source.load([]);
         }
         this.totalCount = orders.recordsTotal;
+        this.loadingList = false;
+        this.cdr.detectChanges();
       }, error => {
         this.loadingList = false;
         this.source.load([]);
+        this.cdr.detectChanges();
       });
     this.setSettings();
   }
